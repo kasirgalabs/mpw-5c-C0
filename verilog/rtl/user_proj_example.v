@@ -66,7 +66,29 @@ module user_proj_example #(
     output [`MPRJ_IO_PADS-1:0] io_oeb,
 
     // IRQ
-    output [2:0] irq
+    output [2:0] irq,
+
+    output                                          vb_csb0                 ,
+    output                                          vb_web0                 ,
+    output          [3:0]                           vb_wmask0               ,
+    output          [12:0]                          vb_addr0                ,
+    output          [31:0]                          vb_din0                 ,
+    input           [31:0]                          vb_dout0                ,
+
+    output                                          vb_csb1                 ,
+    output          [12:0]                          vb_addr1                ,
+    input           [31:0]                          vb_dout1                ,
+
+    output                                          bb_csb0                 ,
+    output                                          bb_web0                 ,
+    output          [3:0]                           bb_wmask0               ,
+    output          [31:0]                          bb_addr0                ,
+    output          [31:0]                          bb_din0                 ,
+    input           [31:0]                          bb_dout0                ,
+
+    output                                          bb_csb1                 ,
+    output          [31:0]                          bb_addr1                ,
+    input           [31:0]                          bb_dout1                         
 );
     wire clk;
     wire rst;
@@ -104,11 +126,9 @@ module user_proj_example #(
     assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
     assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
-    counter #(
-        .BITS(BITS)
-    ) counter(
-        .clk(clk),
-        .reset(rst),
+    c0_system c0_system(
+        .clk_g(clk),
+        .rst_g(rst),
         .ready(wbs_ack_o),
         .valid(valid),
         .rdata(rdata),
@@ -116,50 +136,34 @@ module user_proj_example #(
         .wstrb(wstrb),
         .la_write(la_write),
         .la_input(la_data_in[63:32]),
-        .count(count)
+        .count(count),
+        .tx(tx),
+        .rx(rx),
+        .io_gecerli(io_gecerli),
+        .io_ps(io_ps),
+        
+        .bb_csb0                                           (bb_csb0)                                                       ,
+        .bb_web0                                           (bb_web0)                                                       ,
+        .bb_wmask0                                         (bb_wmask0)                                                     ,
+        .bb_addr0                                          (bb_addr0)                                                      ,
+        .bb_din0                                           (bb_din0)                                                       ,
+        .bb_dout0                                          (bb_dout0)                                                      ,
+
+        .bb_csb1                                           (bb_csb1)                                                       ,
+        .bb_addr1                                          (bb_addr1)                                                      ,
+        .bb_dout1                                          (bb_dout1)                                                      ,
+
+        .vb_csb0                                           (vb_csb0)                                                       ,
+        .vb_web0                                           (vb_web0)                                                       ,
+        .vb_wmask0                                         (vb_wmask0)                                                     ,
+        .vb_addr0                                          (vb_addr0)                                                      ,
+        .vb_din0                                           (vb_din0)                                                       ,
+        .vb_dout0                                          (vb_dout0)                                                      ,
+
+        .vb_csb1                                           (vb_csb1)                                                       ,
+        .vb_addr1                                          (vb_addr1)                                                      ,
+        .vb_dout1                                          (vb_dout1) 
     );
-
-endmodule
-
-module counter #(
-    parameter BITS = 32
-)(
-    input clk,
-    input reset,
-    input valid,
-    input [3:0] wstrb,
-    input [BITS-1:0] wdata,
-    input [BITS-1:0] la_write,
-    input [BITS-1:0] la_input,
-    output ready,
-    output [BITS-1:0] rdata,
-    output [BITS-1:0] count
-);
-    reg ready;
-    reg [BITS-1:0] count;
-    reg [BITS-1:0] rdata;
-
-    always @(posedge clk) begin
-        if (reset) begin
-            count <= 0;
-            ready <= 0;
-        end else begin
-            ready <= 1'b0;
-            if (~|la_write) begin
-                count <= count + 1;
-            end
-            if (valid && !ready) begin
-                ready <= 1'b1;
-                rdata <= count;
-                if (wstrb[0]) count[7:0]   <= wdata[7:0];
-                if (wstrb[1]) count[15:8]  <= wdata[15:8];
-                if (wstrb[2]) count[23:16] <= wdata[23:16];
-                if (wstrb[3]) count[31:24] <= wdata[31:24];
-            end else if (|la_write) begin
-                count <= la_write & la_input;
-            end
-        end
-    end
 
 endmodule
 `default_nettype wire

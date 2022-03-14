@@ -81,43 +81,108 @@ module user_project_wrapper #(
 /*--------------------------------------*/
 /* User project is instantiated  here   */
 /*--------------------------------------*/
+wire                                         vb_clk0                 ;
+wire                                         vb_csb0                 ;
+wire                                         vb_web0                 ;
+wire         [3:0]                           vb_wmask0               ;
+wire         [12:0]                          vb_addr0                ;
+wire         [31:0]                          vb_din0                 ;
+wire         [31:0]                          vb_dout0                ;
+wire                                         vb_clk1                 ;
+wire                                         vb_csb1                 ;
+wire         [12:0]                          vb_addr1                ;
+wire         [31:0]                          vb_dout1                ;
+wire                                         bb_clk0                 ;
+wire                                         bb_csb0                 ;
+wire                                         bb_web0                 ;
+wire         [3:0]                           bb_wmask0               ;
+wire         [`BB_ADRES_BIT-1:0]             bb_addr0                ;
+wire         [31:0]                          bb_din0                 ;
+wire         [31:0]                          bb_dout0                ;
+wire                                         bb_clk1                 ;
+wire                                         bb_csb1                 ;
+wire         [`BB_ADRES_BIT-1:0]             bb_addr1                ;
+wire         [31:0]                          bb_dout1                ;    
 
-user_proj_example mprj (
+c0_system mprj (
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
 	.vssd1(vssd1),	// User area 1 digital ground
 `endif
 
-    .wb_clk_i(wb_clk_i),
-    .wb_rst_i(wb_rst_i),
-
-    // MGMT SoC Wishbone Slave
-
-    .wbs_cyc_i(wbs_cyc_i),
-    .wbs_stb_i(wbs_stb_i),
-    .wbs_we_i(wbs_we_i),
-    .wbs_sel_i(wbs_sel_i),
-    .wbs_adr_i(wbs_adr_i),
-    .wbs_dat_i(wbs_dat_i),
-    .wbs_ack_o(wbs_ack_o),
-    .wbs_dat_o(wbs_dat_o),
-
-    // Logic Analyzer
-
-    .la_data_in(la_data_in),
-    .la_data_out(la_data_out),
-    .la_oenb (la_oenb),
+    .clk_g(wb_clk_i),
+    .rst_g(wb_rst_i),
 
     // IO Pads
-
-    .io_in (io_in),
-    .io_out(io_out),
+    .tx(io_out[1]),
+    .rx(io_in[0]),
+    .io_gecerli(io_out[2]),
+    .io_ps(io_out[34:3]),
     .io_oeb(io_oeb),
 
-    // IRQ
-    .irq(user_irq)
+
+    .bb_csb0                                           (bb_csb0)                                                       ,
+    .bb_web0                                           (bb_web0)                                                       ,
+    .bb_wmask0                                         (bb_wmask0)                                                     ,
+    .bb_addr0                                          (bb_addr0)                                                      ,
+    .bb_din0                                           (bb_din0)                                                       ,
+    .bb_dout0                                          (bb_dout0)                                                      ,
+
+    .bb_csb1                                           (bb_csb1)                                                       ,
+    .bb_addr1                                          (bb_addr1)                                                      ,
+    .bb_dout1                                          (bb_dout1)                                                      ,
+
+    .vb_csb0                                           (vb_csb0)                                                       ,
+    .vb_web0                                           (vb_web0)                                                       ,
+    .vb_wmask0                                         (vb_wmask0)                                                     ,
+    .vb_addr0                                          (vb_addr0)                                                      ,
+    .vb_din0                                           (vb_din0)                                                       ,
+    .vb_dout0                                          (vb_dout0)                                                      ,
+
+    .vb_csb1                                           (vb_csb1)                                                       ,
+    .vb_addr1                                          (vb_addr1)                                                      ,
+    .vb_dout1                                          (vb_dout1) 
 );
 
+sky130_sram_2kbyte_1rw1r_32x512_8 VB_SRAM
+(
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1),
+        .vssd1(vssd1),
+    `endif        
+
+    .clk0               (wb_clk_i)        ,
+    .csb0               (vb_csb0)        ,
+    .web0               (vb_web0)        ,
+    .wmask0             (vb_wmask0)      ,
+    .addr0              (vb_addr0)       ,
+    .din0               (vb_din0)        ,
+    .dout0              (vb_dout0)       ,
+    .clk1               (wb_clk_i)        ,
+    .csb1               (vb_csb1)        ,
+    .addr1              (vb_addr1)       ,
+    .dout1              (vb_dout1)     
+);
+
+sky130_sram_2kbyte_1rw1r_32x512_8 BB_SRAM
+(
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1),
+        .vssd1(vssd1),
+    `endif        
+
+    .clk0               (wb_clk_i)      ,
+    .csb0               (bb_csb0)      ,
+    .web0               (bb_web0)      ,
+    .wmask0             (bb_wmask0)    ,
+    .addr0              (bb_addr0)     ,
+    .din0               (bb_din0)      ,
+    .dout0              (bb_dout0)     ,
+    .clk1               (wb_clk_i)      ,
+    .csb1               (bb_csb1)      ,
+    .addr1              (bb_addr1)     ,
+    .dout1              (bb_dout1)   
+);
 endmodule	// user_project_wrapper
 
 `default_nettype wire
