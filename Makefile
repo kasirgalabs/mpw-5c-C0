@@ -66,7 +66,7 @@ setup: install check-env install_mcw pdk openlane
 blocks=$(shell cd openlane && find * -maxdepth 0 -type d)
 .PHONY: $(blocks)
 $(blocks):
-	export CARAVEL_ROOT=$(CARAVEL_ROOT) && cd openlane && $(MAKE) $*
+	export CARAVEL_ROOT=$(CARAVEL_ROOT) && cd openlane && $(MAKE) $@
 
 dv_patterns=$(shell cd verilog/dv && find * -maxdepth 0 -type d)
 dv-targets-rtl=$(dv_patterns:%=verify-%-rtl)
@@ -74,7 +74,7 @@ dv-targets-gl=$(dv_patterns:%=verify-%-gl)
 dv-targets-gl-sdf=$(dv_patterns:%=verify-%-gl-sdf)
 
 TARGET_PATH=$(shell pwd)
-verify_command="cd ${TARGET_PATH}/verilog/dv/$* && export SIM=${SIM} && make"
+verify_command="cd ${TARGET_PATH}/verilog/dv/test_c0 && export SIM=${SIM} && make"
 dv_base_dependencies=simenv
 docker_run_verify=\
 	docker run -v ${TARGET_PATH}:${TARGET_PATH} -v ${PDK_ROOT}:${PDK_ROOT} \
@@ -118,6 +118,42 @@ $(clean-targets): clean-% :
 	rm -f ./mag/$*.mag
 	rm -f ./lef/$*.lef
 	rm -f ./maglef/*.maglef
+
+
+rv-tests=$(shell cd verilog/dv/test_c0/coe && find * -maxdepth 0 -type d)
+rv-tests-rtl=$(rv-tests:%=test-%-rtl)
+rv-tests-gl=$(rv-tests:%=test-%-gl)
+rv-tests-gl-sdf=$(rv-tests:%=test-%-gl-sdf)
+
+.PHONY: test
+test: $(rv-tests)
+
+$(rv-tests-rtl): SIM=RTL
+$(rv-tests-rtl): test-%-rtl: $(dv_base_dependencies)
+	python3 $(PWD)/verilog/dv/test_c0/coe2verilog.py $*
+	$(docker_run_verify)
+	python3 $(PWD)/verilog/dv/test_c0/check_res.py RTL
+
+$(rv-tests-gl): SIM=GL
+$(rv-tests-gl): test-%-gl: $(dv_base_dependencies)
+	python3 $(PWD)/verilog/dv/test_c0/coe2verilog.py $*
+	$(docker_run_verify)
+	python3 $(PWD)/verilog/dv/test_c0/check_res.py GL
+
+$(rv-tests-gl-sdf): SIM=GL_SDF
+$(rv-tests-gl-sdf): test-%-gl-sdf: $(dv_base_dependencies)
+	python3 $(PWD)/verilog/dv/test_c0/coe2verilog.py $*
+	$(docker_run_verify)
+	python3 $(PWD)/verilog/dv/test_c0/check_res.py GL
+
+.PHONY: clean_test
+clean_test:
+	rm -f ./verilog/dv/test_c0/*.txt
+	rm -f ./verilog/dv/test_c0/*.vcd
+	rm -f ./verilog/dv/test_c0/*.hex
+	rm -f ./verilog/dv/test_c0/*.hexe
+	rm -f ./verilog/dv/test_c0/*.lst
+	rm -f ./verilog/dv/test_c0/c0_uart_prog_tb.v
 
 make_what=setup $(blocks) $(dv-targets-rtl) $(dv-targets-gl) $(dv-targets-gl-sdf) $(clean-targets)
 .PHONY: what
