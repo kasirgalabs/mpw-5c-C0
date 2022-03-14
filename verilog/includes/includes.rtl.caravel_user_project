@@ -1,5 +1,30 @@
 # Caravel user project includes
+-v $(USER_PROJECT_VERILOG)/rtl/sabitler.vh
+-v $(USER_PROJECT_VERILOG)/rtl/mikroislem.vh
 -v $(USER_PROJECT_VERILOG)/rtl/user_project_wrapper.v	     
--v $(USER_PROJECT_VERILOG)/rtl/user_proj_example.v
-
+-v $(USER_PROJECT_VERILOG)/rtl/axil_slave_gfa.v
+-v $(USER_PROJECT_VERILOG)/rtl/adres_tekleyici.v
+-v $(USER_PROJECT_VERILOG)/rtl/aritmetik_mantik_birimi.v
+-v $(USER_PROJECT_VERILOG)/rtl/axil_interconnect.v
+-v $(USER_PROJECT_VERILOG)/rtl/baslangic_bellegi.v
+-v $(USER_PROJECT_VERILOG)/rtl/bellek_islem_birimi.v
+-v $(USER_PROJECT_VERILOG)/rtl/buyruk_bellegi_sram.v
+-v $(USER_PROJECT_VERILOG)/rtl/cekirdek.v
+-v $(USER_PROJECT_VERILOG)/rtl/dallanma_birimi.v
+-v $(USER_PROJECT_VERILOG)/rtl/denetim_durum_birimi.v
+-v $(USER_PROJECT_VERILOG)/rtl/getir_coz.v
+-v $(USER_PROJECT_VERILOG)/rtl/on_taraf.v
+-v $(USER_PROJECT_VERILOG)/rtl/UART_alici.v
+-v $(USER_PROJECT_VERILOG)/rtl/UART_GFA.v
+-v $(USER_PROJECT_VERILOG)/rtl/UART_verici.v
+-v $(USER_PROJECT_VERILOG)/rtl/iki_bit_adimli_bolucu.v
+-v $(USER_PROJECT_VERILOG)/rtl/tamsayi_bolme_birimi.v
+-v $(USER_PROJECT_VERILOG)/rtl/iki_bit_adimli_carpici.v
+-v $(USER_PROJECT_VERILOG)/rtl/tamsayi_carpma_birimi.v
+-v $(USER_PROJECT_VERILOG)/rtl/veri_bellegi_sram.v
+-v $(USER_PROJECT_VERILOG)/rtl/yazmac_obegi.v
+-v $(USER_PROJECT_VERILOG)/rtl/yazmac_oku_yurut.v
+-v $(USER_PROJECT_VERILOG)/rtl/yazmac_yaz.v
+-v $(USER_PROJECT_VERILOG)/rtl/c0_system.v
+-v $(USER_PROJECT_VERILOG)/dv/test_c0/c0_uart_prog_tb.v
  
