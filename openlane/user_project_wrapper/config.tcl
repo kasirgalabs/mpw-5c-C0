@@ -94,9 +94,11 @@ set ::env(FP_PDN_CHECK_NODES) 0
 set ::env(GLB_RT_OBS) " met1 250.00 1000.00 933.1 1416.54, \
 	              		met2 250.00 1000.00 933.1 1416.54, \
 	              		met3 250.00 1000.00 933.1 1416.54, \
+	              		met4 250.00 1000.00 933.1 1416.54, \
 	              		met1 250.00 1900.00 933.1 2316.54, \
 	              		met2 250.00 1900.00 933.1 2316.54, \
 	              		met3 250.00 1900.00 933.1 2316.54, \
+	              		met4 250.00 1900.00 933.1 2316.54, \
 		       			met5 0 0 2920 3520"
 
 # The following is because there are no std cells in the example wrapper project.
