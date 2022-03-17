@@ -46,7 +46,7 @@ set ::env(CLOCK_NET) "mprj.clk_g\
 					BB_SRAM.clk0\
 					BB_SRAM.clk1"
 
-set ::env(CLOCK_PERIOD) "50"
+set ::env(CLOCK_PERIOD) "20"
 
 ## Internal Macros
 ### Macro PDN Connections

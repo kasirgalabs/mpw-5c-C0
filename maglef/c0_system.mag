@@ -1,7 +1,7 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1647450932
+timestamp 1647511910
 << obsli1 >>
 rect 1104 2159 258888 257329
 << obsm1 >>
@@ -1080,7 +1080,7 @@ rect 127488 2347 142368 254693
 rect 142848 2347 157728 254693
 rect 158208 2347 173088 254693
 rect 173568 2347 188448 254693
-rect 188928 2347 202709 254693
+rect 188928 2347 202341 254693
 << labels >>
 rlabel metal3 s 0 116288 800 116408 6 bb_addr0[0]
 port 1 nsew signal output
@@ -1862,7 +1862,7 @@ port 373 nsew ground input
 string FIXED_BBOX 0 0 260000 260000
 string LEFclass BLOCK
 string LEFview TRUE
-string GDS_END 70259250
+string GDS_END 70260754
 string GDS_FILE /home/kasirga/c0_hayyan/GL_GECTI/caravel_user_project/openlane/c0_system/runs/c0_system/results/finishing/c0_system.magic.gds
 string GDS_START 1649888
 << end >>
