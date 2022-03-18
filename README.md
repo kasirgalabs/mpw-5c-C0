@@ -1,4 +1,4 @@
-# Kasırga K0 RISC-V SoC
+# Kasırga C0 RISC-V SoC
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![UPRJ_CI](https://github.com/efabless/caravel_project_example/actions/workflows/user_project_ci.yml/badge.svg)](https://github.com/efabless/caravel_project_example/actions/workflows/user_project_ci.yml) [![Caravel Build](https://github.com/efabless/caravel_project_example/actions/workflows/caravel_build.yml/badge.svg)](https://github.com/efabless/caravel_project_example/actions/workflows/caravel_build.yml)
 
@@ -18,11 +18,11 @@ Table of contents
 Overview
 ========
 
-This repo contains the RISC-V based K0 SoC that utilizes ``caravel`` chip user space.
-K0 is an silicon-proven SoC that has a RISC-V core (RV32-IM ISA) and AN UART module @ 115200 baudrate.
+This repo contains the RISC-V based C0 SoC that utilizes ``caravel`` chip user space.
+C0 is an silicon-proven SoC that has a RISC-V core (RV32-IM ISA) and AN UART module @ 115200 baudrate.
 The repo also contains all required files to run all RV32-IM ISA tests.
 
-# K0 Block Diagram
+# C0 Block Diagram
 
 TBA
 
@@ -40,7 +40,7 @@ TBA
 
 TBA
 
-# Hardening the Kasirga K0 using Openlane
+# Hardening the Kasirga C0 using Openlane
 
 TBA
 
