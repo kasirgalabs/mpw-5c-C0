@@ -28,7 +28,7 @@ module UART_verici(
   `ifdef FAST_UART
    localparam UART_SAAT = 16;
   `else
-   localparam UART_SAAT = 2083;
+   localparam UART_SAAT = 5208;
   `endif
 
   /*

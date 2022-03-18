@@ -13,7 +13,7 @@
 // limitations under the License.
 // SPDX-License-Identifier: Apache-2.0
 //-----------Sim Parametreleri----
-`define FAST_UART
+//`define FAST_UART
 //`define SIM_SRAM
 `define GL_RTL_SIM
 //------Sentez Parametreleri------
